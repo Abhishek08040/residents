@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "123067542423",
+    "project_id": "society-management-syste-b0697",
+    "storage_bucket": "society-management-syste-b0697.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123067542423:android:15c850a6a72b08138ff2d2",
+        "android_client_info": {
+          "package_name": "com.SocietyManagementSystem.residents_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123067542423-1qjp9qk514cmu0re3qg7ep58g8kiidh5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlVj8vJEmnboXqRNQmnE0R0WhT03-63kw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123067542423-1qjp9qk514cmu0re3qg7ep58g8kiidh5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
