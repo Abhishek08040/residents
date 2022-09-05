@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
-import 'ComplaintsFirebaseData.dart';
+import 'ComplaintsDatabase.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       rtlOpening: false,
       disabledGestures: false,
       childDecoration: const BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(16)),
+        borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       drawer: SafeArea(
         child: Container(
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
         body: Center(
           child: Container(
             constraints: BoxConstraints(
-              maxWidth: 820,
+              maxWidth: 825,
             ),
             child: Column(children:
             [
@@ -155,14 +155,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 246, 255, 248),
-                  borderRadius: BorderRadius.all(Radius.circular(18)),
-                  border: Border.all(color: colorGray),
-                ),
-                  child: MyFirebaseTable(),
-              ),
+              MyFirebaseTable(),
             ]),
           ),
         ),
