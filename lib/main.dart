@@ -1,7 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'MainPage/HomePage.dart';
+import 'package:residents_app/ComplaintsPage/complaints_dashboard.dart';
+import 'package:residents_app/ComplaintsPage/complaints_history_table.dart';
+import 'package:residents_app/ComplaintsPage/raise_a_complaint.dart';
+import 'package:residents_app/ComplaintsPage/view_unsolved_complaints.dart';
+import 'ComplaintsPage/complaints_donut_graph_page.dart';
+import 'Dashboard.dart';
 import 'firebase/firebase_options.dart';
+
 
 void main() async
 {
@@ -14,26 +20,32 @@ void main() async
 class MyApp extends StatelessWidget
 {
   const MyApp({Key? key}) : super(key: key);
-  final Color color1 = const Color.fromARGB(255, 25, 29, 50);
-  final Color color2 = const Color.fromARGB(255,219, 48, 105);
 
   @override
   Widget build(BuildContext context)
   {
     return MaterialApp
       (
-      title: "Complaints and Feedbacks",
+      title: "Residents Page",
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      //home: Dashboard(),
       theme: ThemeData
         (
           colorScheme: ColorScheme.fromSwatch().copyWith
             (
-            primary: color1,
-            secondary: color2,
+            primary: const Color.fromARGB(255, 20, 15, 45),
+            secondary: const Color.fromARGB(255, 217, 4, 41),
           )
       ),
-      //   routes: {'/second': (context) => const SecondScreen(),},
+      initialRoute: '/raise_complaint',
+      routes: {
+        '/':(context) => const Dashboard(),
+        '/complaints': (context) => const ComplaintsDashboardPage(),
+        '/raise_complaint': (context) => const RaiseAComplaint(),
+        '/complaints_details': (context) => const ComplaintsHistoryTable(),
+        '/complaint_donut_graph': (context) => const ComplaintsDonutGraphPage(),
+        '/unsolved_complaints': (context) => const UnsolvedComplaints(),
+      },
     );
   }
 }
