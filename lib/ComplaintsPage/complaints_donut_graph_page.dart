@@ -17,28 +17,32 @@ class _ComplaintsDonutGraphPageState extends State<ComplaintsDonutGraphPage>
     return Hero(
       tag: 'donutGraph',
       child: Scaffold(
-        body: Container(
-          margin: EdgeInsets.all(10),
-          padding: EdgeInsets.all(25),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Your\nComplaints",
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.black,
+          elevation: 0.0,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 15),
+                child: Text("Your\nComplaints",
                   style: GoogleFonts.poppins(textStyle: TextStyle(
                       color: Color(0xff403b58)),
                     fontSize: 32,
                     fontWeight: FontWeight.w300,
                   ),
                 ),
-                Divider(thickness: 2,),
-                SizedBox(
-                    height: 460,
-                    child: ComplaintsDonutGraph()
-                ),
-              ],
-            ),
+              ),
+              Divider(thickness: 2,),
+              SizedBox(
+                  height: 460,
+                  child: ComplaintsDonutGraph()
+              ),
+            ],
           ),
         ),
       ),

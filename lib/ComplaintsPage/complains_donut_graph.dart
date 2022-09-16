@@ -32,13 +32,28 @@ class _ComplaintsDonutGraphState extends State<ComplaintsDonutGraph>
       future: complaints.get(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot)
       {
-
-        if (snapshot.connectionState == ConnectionState.waiting)
+        if (snapshot.connectionState == ConnectionState.waiting ||
+          snapshot.connectionState == ConnectionState.none)
         {
           return const Center(child: CircularProgressIndicator());
         }
 
-        else if (snapshot.hasData)
+        else if(!snapshot.hasData || snapshot.data.docs.length < 1)
+          {
+            return DefaultTextStyle(
+              style: GoogleFonts.poppins(textStyle: const TextStyle(
+                  color: Color(0xff403b58)),
+                fontSize: 22,
+                fontWeight: FontWeight.w300,
+              ),
+              child: const Center(
+                child: Text("No Complaints Filed!!",
+                ),
+              ),
+            );
+          }
+
+        else if (snapshot.hasData && snapshot.connectionState == ConnectionState.done)
         {
           int itemCount = snapshot.data.docs.length;
           Map complaintsByCriteria = {};
@@ -56,7 +71,6 @@ class _ComplaintsDonutGraphState extends State<ComplaintsDonutGraph>
             {
               ++complaintsByCriteria[currentCriteria];
             }
-
           }
 
             List<ComplaintsDonutGraphXYData> complaintsByCriteriaList = <ComplaintsDonutGraphXYData>[];
@@ -72,7 +86,7 @@ class _ComplaintsDonutGraphState extends State<ComplaintsDonutGraph>
 
               legend: Legend(
                 isVisible: true,
-                overflowMode: LegendItemOverflowMode.wrap,
+                position: LegendPosition.auto,
               ),
 
               series: <CircularSeries>[
@@ -90,7 +104,7 @@ class _ComplaintsDonutGraphState extends State<ComplaintsDonutGraph>
         return DefaultTextStyle(
           style: GoogleFonts.poppins(textStyle: const TextStyle(
               color: Color(0xff403b58)),
-            fontSize: 32,
+            fontSize: 22,
             fontWeight: FontWeight.w300,
           ),
           child: const Center(

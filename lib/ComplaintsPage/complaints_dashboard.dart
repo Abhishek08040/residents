@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:residents_app/Drawer.dart';
@@ -164,7 +165,7 @@ class _ComplaintsDashboardPageState extends State<ComplaintsDashboardPage>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Hero(
-                      tag: 'unsolved_complaints',
+                      tag: 'unsolved_complaints_page',
                       child: VxBox(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -233,6 +234,7 @@ class _ComplaintsDashboardPageState extends State<ComplaintsDashboardPage>
                               color: Colors.transparent,
                               child: InkWell(
                                   onTap: (){
+                                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
                                     Navigator.pushNamed(context, '/complaints_details');
                                   },
                                   child: Icon(Icons.manage_history_outlined,
@@ -292,9 +294,12 @@ class _ComplaintsDashboardPageState extends State<ComplaintsDashboardPage>
                       onTap: (){
                         Navigator.pushNamed(context, '/complaint_donut_graph');
                       },
-                      child: SizedBox(
-                          height: 180,
-                          child: ComplaintsDonutGraph(),
+                      child: const SizedBox(
+                          height: 200,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12.0),
+                            child: ComplaintsDonutGraph(),
+                          ),
                       ),
                     ),
                   ),
@@ -321,136 +326,156 @@ class _ComplaintsDashboardPageState extends State<ComplaintsDashboardPage>
     showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            ),
+          return SingleChildScrollView(
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(40),
+              ),
 
-            contentPadding: EdgeInsets.all(20),
+              contentPadding: EdgeInsets.all(20),
 
-            title: Column(
-              children: [
-                Text("Confirm",
-                  style: GoogleFonts.poppins(textStyle: TextStyle(
-                      color: Color(0xff403b58)),
-                    fontSize: 32,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                Text("Feedback",
-                  style: GoogleFonts.poppins(textStyle: TextStyle(
-                      color: Color(0xff403b58)),
-                    fontSize: 32,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-              ],
-            ),
-
-            content: Container(
-              width: 400,
-              height: 225,
-
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              title: Column(
                 children: [
-                  Divider(color: Colors.black,),
-                  SizedBox(height: 20,),
-                  Text(
-                    "Your rating:",
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(fontSize: 20,
-                          fontWeight: FontWeight.w500),
+                  Text("Confirm",
+                    style: GoogleFonts.poppins(textStyle: TextStyle(
+                        color: Color(0xff403b58)),
+                      fontSize: 32,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        for (int i = 0; i < ratings; i++) Icon(
-                          Icons.star, color: Colors.amber, size: 25,),
-                      ],
+                  Text("Feedback",
+                    style: GoogleFonts.poppins(textStyle: TextStyle(
+                        color: Color(0xff403b58)),
+                      fontSize: 32,
+                      fontWeight: FontWeight.w300,
                     ),
-                  ),
-                  SizedBox(height: 15,),
-                  Text(
-                    "Your comments:",
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(fontSize: 20,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  Text((comments.isEmpty) ? "No comments!" : comments,
-                    style: GoogleFonts.lato(
-                      textStyle: TextStyle(
-                        fontSize: 15,
-                      )
-                  ),),
-
-                  SizedBox(height: 15,),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        height: 35,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              Vx.blue900,
-                            ),
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      10),
-                                )
-                            ),
-                          ),
-                          child: Text("Cancel", style: GoogleFonts.lato(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 35,
-                        child: ElevatedButton(
-                          onPressed: () async
-                          {
-                            Map <String, dynamic> ratingsAndCommentsData = {
-                            "Ratings": ratings,
-                            "Comments":comments,
-                            };
-                            FirebaseFirestore.instance.collection('residentsRatingsAndComments').add(ratingsAndCommentsData);
-                            Navigator.pushNamed(context, '/complaints');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              Vx.blue900,
-                            ),
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      10),
-                                )
-                            ),
-                          ),
-                          child: Text("Confirm", style: GoogleFonts.lato(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,),
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
+              ),
+
+              content: Container(
+                width: 400,
+                height: 225,
+
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Divider(color: Colors.black,),
+                    SizedBox(height: 20,),
+                    Text(
+                      "Your rating:",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(fontSize: 20,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          for (int i = 0; i < ratings; i++) Icon(
+                            Icons.star, color: Colors.amber, size: 25,),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 15,),
+                    Text(
+                      "Your comments:",
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(fontSize: 20,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    Text((comments.isEmpty) ? "No comments!" : comments,
+                      style: GoogleFonts.lato(
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                        )
+                    ),),
+
+                    SizedBox(height: 15,),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 35,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                Vx.blue900,
+                              ),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        10),
+                                  )
+                              ),
+                            ),
+                            child: Text("Cancel", style: GoogleFonts.lato(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 35,
+                          child: ElevatedButton(
+                            onPressed: () async
+                            {
+                              Map <String, dynamic> ratingsAndCommentsData = {
+                              "Ratings": ratings,
+                              "Comments":comments,
+                              };
+
+                              var snackBar = SnackBar(
+                                elevation: 0,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.transparent,
+                                content: AwesomeSnackbarContent(
+                                  title: "Response Saved!!",
+                                  message: 'Thank you for your feedback!!!!',
+                                  contentType: ContentType.success,
+                                ),
+                              );
+
+                              FirebaseFirestore.instance.collection('residentsRatingsAndComments').add(ratingsAndCommentsData);
+                              Navigator.pushNamed(context, '/complaints');
+
+                              WidgetsBinding.instance.addPostFrameCallback((timeStamp)
+                              {
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                              });
+
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                Vx.blue900,
+                              ),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        10),
+                                  )
+                              ),
+                            ),
+                            child: Text("Confirm", style: GoogleFonts.lato(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );

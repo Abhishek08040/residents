@@ -4,9 +4,9 @@ import 'package:residents_app/ComplaintsPage/complaints_dashboard.dart';
 import 'package:residents_app/ComplaintsPage/complaints_history_table.dart';
 import 'package:residents_app/ComplaintsPage/raise_a_complaint.dart';
 import 'package:residents_app/ComplaintsPage/view_unsolved_complaints.dart';
-import 'package:residents_app/Login/signup_page.dart';
 import 'ComplaintsPage/complaints_donut_graph_page.dart';
 import 'Dashboard.dart';
+import 'Login and Register/register.dart';
 import 'firebase/firebase_options.dart';
 
 
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget
         '/complaints_details': (context) => const ComplaintsHistoryTable(),
         '/complaint_donut_graph': (context) => const ComplaintsDonutGraphPage(),
         '/unsolved_complaints': (context) => const UnsolvedComplaints(),
-        '/signup': (context) => const Signup(),
+        '/signup': (context) => const RegisterUser(),
       },
     );
   }

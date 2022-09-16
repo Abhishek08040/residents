@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:file_picker/file_picker.dart';
@@ -15,8 +17,7 @@ class RaiseAComplaint extends StatefulWidget {
   State<RaiseAComplaint> createState() => _RaiseAComplaintState();
 }
 
-class _RaiseAComplaintState extends State<RaiseAComplaint>
-{
+class _RaiseAComplaintState extends State<RaiseAComplaint> {
   List<PlatformFile> files_added = <PlatformFile>[];
 
   final List<SelectedListItem> criteriaList = [
@@ -42,8 +43,7 @@ class _RaiseAComplaintState extends State<RaiseAComplaint>
   final formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.black,
@@ -53,213 +53,206 @@ class _RaiseAComplaintState extends State<RaiseAComplaint>
       body: Container(
         child: SingleChildScrollView(
           child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          child: Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Raise a\nNew Complaint",
-                  style: GoogleFonts.poppins(textStyle: TextStyle(
-                    color: Color(0xff403b58)),
-                    fontSize: 32,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-
-                Text("Choose a criteria for your problem. Add a description. Add files if you want!",
-                  style: GoogleFonts.qwitcherGrypen(textStyle: TextStyle(
-                    color: Color(0xff403b58)),
-                    fontSize: 30,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                SizedBox(height: 10,),
-
-                TextFormField(
-                  readOnly: true,
-                  onTap: (){
-                    DropDownState(
-                      DropDown(
-                        bottomSheetTitle: "Select a Criteria".text.xl2.make(),
-                        data: criteriaList,
-                        selectedItems: (List<dynamic> selectedList)
-                        {
-                          selectedCriteria = selectedList[0].name.toString();
-                          setState(()
-                          {
-
-                          });
-                        }),
-                    ).showModal(context);
-                  },
-
-                  validator: (value)
-                  {
-                    if (selectedCriteria.isEmpty)
-                    {
-                      return "Please Select a Criteria ";
-                    }
-                    else
-                    {
-                      return null;
-                    }
-                  },
-
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Raise a\nNew Complaint",
+                    style: GoogleFonts.poppins(textStyle: TextStyle(
+                        color: Color(0xff403b58)),
+                      fontSize: 32,
+                      fontWeight: FontWeight.w300,
                     ),
-                    labelText: (selectedCriteria=="") ? "Select a Criteria " : selectedCriteria,
                   ),
-                ),
 
-                SizedBox(height: 8,),
-
-                TextFormField(
-                  validator: (value)
-                  {
-                    if (value!.isEmpty)
-                    {
-                      return "Please provide a title ";
-                    }
-                    else
-                    {
-                      return null;
-                    }
-                  },
-
-                  onChanged: (value)
-                  {
-                    complaintTitle = value;
-                  },
-
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                  Text(
+                    "Choose a criteria for your problem. Add a description. Add files if you want!",
+                    style: GoogleFonts.qwitcherGrypen(textStyle: TextStyle(
+                        color: Color(0xff403b58)),
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
                     ),
-                    hintText: "Give a title for your problem.",
-                    labelText: "Provide a Title",
                   ),
-                ),
 
-                SizedBox(height: 8,),
+                  SizedBox(height: 10,),
 
-                TextFormField(
-                  validator: (value)
-                  {
-                    if (value!.isEmpty)
-                      {
-                        return "Please provide a description ";
+                  TextFormField(
+                    readOnly: true,
+                    onTap: () {
+                      DropDownState(
+                        DropDown(
+                            bottomSheetTitle: "Select a Criteria".text.xl2
+                                .make(),
+                            data: criteriaList,
+                            selectedItems: (List<dynamic> selectedList) {
+                              selectedCriteria =
+                                  selectedList[0].name.toString();
+                              setState(() {
+
+                              });
+                            }),
+                      ).showModal(context);
+                    },
+
+                    validator: (value) {
+                      if (selectedCriteria.isEmpty) {
+                        return "Please Select a Criteria ";
                       }
-                    else
-                      {
+                      else {
                         return null;
                       }
-                  },
-                  maxLines: 3,
-                  minLines: 3,
-                  onChanged: (value)
-                  {
-                    complaintDescription = value;
-                  },
+                    },
 
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      labelText: (selectedCriteria == "")
+                          ? "Select a Criteria "
+                          : selectedCriteria,
                     ),
-                    hintText: "Describe your issues.",
-                    labelText: "Enter your complaint details",
                   ),
-                ),
 
-                SizedBox(height: 8,),
+                  SizedBox(height: 8,),
 
-                Container(
-                  height: 50,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("Add files",
-                        style: GoogleFonts.lato(
-                            textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)
-                        ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please provide a title ";
+                      }
+                      else {
+                        return null;
+                      }
+                    },
+
+                    onChanged: (value) {
+                      complaintTitle = value;
+                    },
+
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
                       ),
+                      hintText: "Give a title for your problem.",
+                      labelText: "Provide a Title",
+                    ),
+                  ),
 
-                      SizedBox(
-                        height: 45,
-                        child: ElevatedButton.icon(
-                          onPressed: () async
-                          {
-                            final result = await FilePicker.platform.pickFiles(allowMultiple: true);
-                            if (result==null) return ;
-                            files_added += result.files;
-                            setState(()
+                  SizedBox(height: 8,),
+
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please provide a description ";
+                      }
+                      else {
+                        return null;
+                      }
+                    },
+                    maxLines: 3,
+                    minLines: 3,
+                    onChanged: (value) {
+                      complaintDescription = value;
+                    },
+
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      hintText: "Describe your issues.",
+                      labelText: "Enter your complaint details",
+                    ),
+                  ),
+
+                  SizedBox(height: 8,),
+
+                  Container(
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("Add files",
+                          style: GoogleFonts.lato(
+                              textStyle: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600)
+                          ),
+                        ),
+
+                        SizedBox(
+                          height: 45,
+                          child: ElevatedButton.icon(
+                            onPressed: () async
                             {
+                              final result = await FilePicker.platform
+                                  .pickFiles(allowMultiple: true);
+                              if (result == null) return;
+                              files_added += result.files;
+                              setState(() {
 
-                            });
-                          },
+                              });
+                            },
 
-                          icon: Icon(Icons.file_upload_outlined, size: 20,),
+                            icon: Icon(Icons.file_upload_outlined, size: 20,),
 
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              Vx.blue900,
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                Vx.blue900,
+                              ),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  )
+                              ),
                             ),
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                )
-                            ),
-                          ),
 
-                          label: Text("Browse",
-                            style: GoogleFonts.lato(textStyle: TextStyle(
-                              fontSize: 18,
-                            ),
+                            label: Text("Browse",
+                              style: GoogleFonts.lato(textStyle: TextStyle(
+                                fontSize: 18,
+                              ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
 
-                SizedBox(height: 10,),
+                  SizedBox(height: 10,),
 
-                SingleChildScrollView(
-                  child: SizedBox(
-                    height: 250,
-                    child: ListView.builder(
-                      itemCount: files_added.length,
-                      itemBuilder: (BuildContext context, int index)
-                      {
-                        return ListTile(
-                          title: Text(files_added[index].name.toString()),
-                          trailing: SizedBox(
-                            height: 35,
-                            child: ElevatedButton.icon(
-                              icon: Icon(Icons.delete_outline, color: Colors.black,),
-                              onPressed: () async{
-                                files_added.remove(files_added[index]);
-                                setState(()
-                                {
+                  SingleChildScrollView(
+                    child: SizedBox(
+                      height: 250,
+                      child: ListView.builder(
+                        itemCount: files_added.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text(files_added[index].name.toString()),
+                            trailing: SizedBox(
+                              height: 35,
+                              child: ElevatedButton.icon(
+                                icon: Icon(
+                                  Icons.delete_outline, color: Colors.black,),
+                                onPressed: () async {
+                                  files_added.remove(files_added[index]);
+                                  setState(() {
 
-                                });
-                              },
-                              label: Text("Remove", style: TextStyle(color: Colors.black),),
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
+                                  });
+                                },
+                                label: Text("Remove",
+                                  style: TextStyle(color: Colors.black),),
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
                                     const Color.fromARGB(255, 206, 208, 206),
-                                ),
-                                shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      side: BorderSide(color: Vx.black),
-                                    )
+                                  ),
+                                  shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        side: BorderSide(color: Vx.black),
+                                      )
                                   ),
                                 ),
                               ),
@@ -277,22 +270,20 @@ class _RaiseAComplaintState extends State<RaiseAComplaint>
       ),
 
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: ()
-          {
-            if (formKey.currentState!.validate())
-            {
-              registerComplaint(
-                selectedCriteria,
-                complaintTitle,
-                complaintDescription,
-                files_added,
-              );
+        onPressed: () {
+          if (formKey.currentState!.validate()) {
+            registerComplaint(
+              selectedCriteria,
+              complaintTitle,
+              complaintDescription,
+              files_added,
+            );
 
-              showDialog(
-                  context: context,
-                  builder: (context)
-                  {
-                    return AlertDialog(
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return SingleChildScrollView(
+                    child: AlertDialog(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40),
                       ),
@@ -393,55 +384,53 @@ class _RaiseAComplaintState extends State<RaiseAComplaint>
                           ],
                         ),
                       ),
-                    );
-                  }
-              );
-            }
-          },
+                    ),
+                  );
+                }
+            );
+          }
+        },
 
-          icon: Icon(Icons.save_outlined, size: 20,),
-          label: Text("Submit"),
+        icon: Icon(Icons.save_outlined, size: 20,),
+        label: Text("Submit"),
 
       ),
     );
   }
 
-  Future<void> registerComplaint(
-      String selectedCriteria,
+  Future<void> registerComplaint(String selectedCriteria,
       String complaintTitle,
       String complaintDescription,
-      List<PlatformFile> files_added,
-      )
-  async {
+      List<PlatformFile> files_added,) async
+  {
     DateTime now = DateTime.now();
     DateFormat format = DateFormat('dd-MM-yyyy').add_jm();
     String formatted = format.format(now);
 
     Map <String, dynamic> newComplaint =
     {
-      "Complainers Name" : 'Ak',
-      "Complainers Room" : '152/239 A',
+      "Complainers Name": 'Ak',
+      "Complainers Room": '152/239 A',
       "Assigned to": 'Aman',
       "Criteria": selectedCriteria,
-      "Description" : complaintDescription,
-      "Registered at" : formatted,
-      "Solve Status" : false,
-      "Title" : complaintTitle,
+      "Description": complaintDescription,
+      "Registered at": formatted,
+      "Solve Status": false,
+      "Title": complaintTitle,
     };
 
     FirebaseFirestore.instance.collection('complaintsData').add(newComplaint)
         .then((value) =>
-        files_added.forEach((element)
-        async {
-          if (element != null)
-          {
-            var fileBytes = element.bytes;
+        files_added.forEach((element) async {
+          if (element != null) {
+            var file = File(element.path!);
             var fileName = element.name;
 
-            await FirebaseStorage.instance.ref('attached files with complaints/${value.id}/$fileName').putData(fileBytes!,);
+            await FirebaseStorage.instance.ref(
+                'attached files with complaints/${value.id}/$fileName')
+                .putFile(file,);
           }
         }),
     );
   }
 }
-
