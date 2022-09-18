@@ -55,6 +55,7 @@ dependencies:
   firebase_storage: ^10.3.8
   expandable_page_view: ^1.0.17
   awesome_snackbar_content: ^0.0.8
+  syncfusion_flutter_datepicker: ^20.2.49
 
 
 
@@ -79,12 +80,12 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
+
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -97,10 +98,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: Berlin
-      fonts:
-        - asset: assets/fonts/Berlin.ttf
+  #fonts:
+  #  - family: Berlin
+  #    fonts:
+  #      - asset:
 
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

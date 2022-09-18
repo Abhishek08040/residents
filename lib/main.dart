@@ -6,6 +6,7 @@ import 'package:residents_app/ComplaintsPage/raise_a_complaint.dart';
 import 'package:residents_app/ComplaintsPage/view_unsolved_complaints.dart';
 import 'ComplaintsPage/complaints_donut_graph_page.dart';
 import 'Dashboard.dart';
+import 'Login and Register/login.dart';
 import 'Login and Register/register.dart';
 import 'firebase/firebase_options.dart';
 
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget
         '/complaint_donut_graph': (context) => const ComplaintsDonutGraphPage(),
         '/unsolved_complaints': (context) => const UnsolvedComplaints(),
         '/signup': (context) => const RegisterUser(),
+        '/login': (context) => const Login(),
       },
     );
   }
