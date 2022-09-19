@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +18,8 @@ class RaiseAComplaint extends StatefulWidget {
   State<RaiseAComplaint> createState() => _RaiseAComplaintState();
 }
 
-class _RaiseAComplaintState extends State<RaiseAComplaint> {
+class _RaiseAComplaintState extends State<RaiseAComplaint>
+{
   List<PlatformFile> files_added = <PlatformFile>[];
 
   final List<SelectedListItem> criteriaList = [
@@ -407,9 +409,12 @@ class _RaiseAComplaintState extends State<RaiseAComplaint> {
     DateFormat format = DateFormat('dd-MM-yyyy').add_jm();
     String formatted = format.format(now);
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userID = prefs.getString('userID').toString();
+
     Map <String, dynamic> newComplaint =
     {
-      "Complainers Name": 'Ak',
+      "Complainers ID": userID,
       "Complainers Room": '152/239 A',
       "Assigned to": 'Aman',
       "Criteria": selectedCriteria,

@@ -1,13 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:residents_app/ComplaintsPage/complaints_dashboard.dart';
 import 'package:residents_app/ComplaintsPage/complaints_history_table.dart';
 import 'package:residents_app/ComplaintsPage/raise_a_complaint.dart';
 import 'package:residents_app/ComplaintsPage/view_unsolved_complaints.dart';
 import 'ComplaintsPage/complaints_donut_graph_page.dart';
 import 'Dashboard.dart';
+import 'Login and Register/add_family_members.dart';
 import 'Login and Register/login.dart';
-import 'Login and Register/register.dart';
+import 'Login and Register/signup.dart';
 import 'firebase/firebase_options.dart';
 
 
@@ -26,11 +28,22 @@ class MyApp extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
+    User? user = FirebaseAuth.instance.currentUser;
+    String initialRoute;
+
+    if (user!=null)
+    {
+      initialRoute = '/';
+    }
+    else
+    {
+      initialRoute = '/login';
+    }
+
     return MaterialApp
       (
       title: "Residents Page",
       debugShowCheckedModeBanner: false,
-      //home: Dashboard(),
       theme: ThemeData
         (
           colorScheme: ColorScheme.fromSwatch().copyWith
@@ -39,7 +52,7 @@ class MyApp extends StatelessWidget
             secondary: const Color.fromARGB(255, 217, 4, 41),
           )
       ),
-      initialRoute: '/signup',
+      initialRoute: initialRoute,
       routes: {
         '/':(context) => const Dashboard(),
         '/complaints': (context) => const ComplaintsDashboardPage(),
@@ -49,6 +62,7 @@ class MyApp extends StatelessWidget
         '/unsolved_complaints': (context) => const UnsolvedComplaints(),
         '/signup': (context) => const RegisterUser(),
         '/login': (context) => const Login(),
+        '/add_family_details': (context) => const AddFamilyMembers(),
       },
     );
   }

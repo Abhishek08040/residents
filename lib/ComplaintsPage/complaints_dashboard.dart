@@ -325,7 +325,8 @@ class _ComplaintsDashboardPageState extends State<ComplaintsDashboardPage>
   {
     showDialog(
         context: context,
-        builder: (context) {
+        builder: (context)
+        {
           return SingleChildScrollView(
             child: AlertDialog(
               shape: RoundedRectangleBorder(
